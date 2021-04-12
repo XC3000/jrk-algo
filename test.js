@@ -22,8 +22,6 @@ var fs = require("fs");
 console.log("motors", motors.length);
 console.log("vehicles", vehicles.length);
 
-console.log(typeof motors[0]["make_desc"]);
-
 let results = [];
 
 /* motors.forEach((motor) => {
@@ -58,6 +56,13 @@ function checkVariant(first, second) {
   /* let first = "COMFORTLINE 1.5L AT (D)";
 
   let second = "1.5 TDI Comfortline (AT)"; */
+
+  // vehice
+
+  // motor
+
+  if (first === "1.4 GLX") {
+  }
 
   first = first.toString();
   second = second.toString();
@@ -109,6 +114,41 @@ function checkVariant(first, second) {
   }
 }
 
+function checkModel(first, second, third) {
+  // vehicle["Model"], // ZOOM
+  // motor["model_desc"], // SCOOTER
+  // motor["variant_desc"] // ZOOM
+
+  /* if (second.toString().toLowerCase().trim() === "scooter")
+    console.log(
+      "second",
+      first.toString().toLowerCase().trim(),
+      third.toString().toLowerCase().trim(),
+      first
+        .toString()
+        .toLowerCase()
+        .trim()
+        .includes(third.toString().toLowerCase().trim())
+    ); */
+  if (second.toString().toLowerCase().trim() === "scooter") {
+    if (
+      first
+        .toString()
+        .toLowerCase()
+        .trim()
+        .includes(third.toString().toLowerCase().trim())
+    ) {
+      return "same";
+    } else {
+      return "not same";
+    }
+  } else {
+    if (checkVariant(first, second) === "same") {
+      return "same";
+    } else return "not same";
+  }
+}
+
 function removeSpecialCharacters(value) {
   return value.toString().replace("-", " ");
 }
@@ -125,36 +165,22 @@ vehicles.forEach((vehicle, vehicleindex) => {
     motor["model_desc"] = removeSpecialCharacters(motor["model_desc"]);
 
     if (
-      motor["variant_desc"] === "XE PETROL" &&
-      motor["make_desc"] === "NISSAN" &&
-      vehicle["Variant"] === "MICRA XE PETROL"
-    ) {
-      console.log(motor);
-      console.log(vehicle);
-      /* console.log(removeSpecialCharacters(motor["model_desc"])); */
-      console.log(
-        "here checking",
-        checkVariant(vehicle["Variant"], motor["variant_desc"])
-      );
-    }
-
-    if (
       vehicle["Make"]
         .toLowerCase()
         .trim()
         .includes(motor["make_desc"].toLowerCase().trim()) &&
-      vehicle["Model"]
-        .toString()
-        .toLowerCase()
-        .trim()
-        .includes(motor["model_desc"].toString().toLowerCase().trim()) &&
+      checkModel(
+        vehicle["Model"],
+        motor["model_desc"],
+        motor["variant_desc"]
+      ) === "same" &&
       checkVariant(vehicle["Variant"], motor["variant_desc"]) === "same"
     ) {
       rich = rich + 1;
       /* console.log("common nos", rich); */
       results.push(motor);
       motors2.splice(index, 1);
-      /* vehicles2.splice(vehicleindex, 1); */
+      vehicles2.splice(vehicleindex, 1);
     }
   });
 
@@ -162,6 +188,21 @@ vehicles.forEach((vehicle, vehicleindex) => {
 });
 
 fs.writeFile("common.json", JSON.stringify(results, null, 2), function (err) {
+  if (err) throw err;
+  console.log("complete");
+});
+
+fs.writeFile("motors.json", JSON.stringify(motors, null, 2), function (err) {
+  if (err) throw err;
+  console.log("complete");
+});
+
+fs.writeFile("motors2.json", JSON.stringify(motors2, null, 2), function (err) {
+  if (err) throw err;
+  console.log("complete");
+});
+
+fs.writeFile("uncommonvehicle.json", JSON.stringify(vehicles2, null, 2), function (err) {
   if (err) throw err;
   console.log("complete");
 });
@@ -176,4 +217,8 @@ fs.writeFile("vehiclecommon.json", JSON.stringify(vehicles, null, 2), function (
   console.log("complete");
 }); */
 
+console.log("final motors", motors2.length);
+
 console.log("common", results.length);
+
+console.log("uncommon vehicle", vehicles2.length);
