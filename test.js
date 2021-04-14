@@ -158,6 +158,9 @@ let rich = 0;
 let vehicles2 = Object.assign([], vehicles);
 var motors2 = Object.assign([], motors);
 
+let commonArray = [],
+  commonObj = {};
+
 vehicles.forEach((vehicle, vehicleindex) => {
   motors.forEach((motor, index) => {
     vehicle["Make"] = removeSpecialCharacters(vehicle["Make"]);
@@ -181,6 +184,13 @@ vehicles.forEach((vehicle, vehicleindex) => {
       results.push(motor);
       motors2.splice(index, 1);
       vehicles2.splice(vehicleindex, 1);
+
+      commonObj = {
+        godigit: motor,
+        tata: vehicle,
+      };
+
+      commonArray.push(commonObj);
     }
   });
 
@@ -202,10 +212,14 @@ fs.writeFile("motors2.json", JSON.stringify(motors2, null, 2), function (err) {
   console.log("complete");
 });
 
-fs.writeFile("uncommonvehicle.json", JSON.stringify(vehicles2, null, 2), function (err) {
-  if (err) throw err;
-  console.log("complete");
-});
+fs.writeFile(
+  "uncommonvehicle.json",
+  JSON.stringify(vehicles2, null, 2),
+  function (err) {
+    if (err) throw err;
+    console.log("complete");
+  }
+);
 
 /* fs.writeFile("motorcommon.json", JSON.stringify(motors, null, 2), function (err) {
   if (err) throw err;
@@ -220,5 +234,16 @@ fs.writeFile("vehiclecommon.json", JSON.stringify(vehicles, null, 2), function (
 console.log("final motors", motors2.length);
 
 console.log("common", results.length);
+
+
+
+console.log(commonArray[0]);
+
+console.log("commonobj", commonArray.length);
+
+fs.writeFile("commArr.json", JSON.stringify(commonArray, null, 2), function (err) {
+  if (err) throw err;
+  console.log("common array written");
+});
 
 console.log("uncommon vehicle", vehicles2.length);
