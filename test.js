@@ -61,8 +61,6 @@ function checkVariant(first, second) {
 
   // motor
 
-  if (first === "1.4 GLX") {
-  }
 
   first = first.toString();
   second = second.toString();
@@ -119,7 +117,7 @@ function checkModel(first, second, third) {
   // motor["model_desc"], // SCOOTER
   // motor["variant_desc"] // ZOOM
 
-  /* if (second.toString().toLowerCase().trim() === "scooter")
+  if (second.toString().toLowerCase().trim() === "scooter")
     console.log(
       "second",
       first.toString().toLowerCase().trim(),
@@ -129,7 +127,7 @@ function checkModel(first, second, third) {
         .toLowerCase()
         .trim()
         .includes(third.toString().toLowerCase().trim())
-    ); */
+    );
   if (second.toString().toLowerCase().trim() === "scooter") {
     if (
       first
@@ -186,8 +184,8 @@ vehicles.forEach((vehicle, vehicleindex) => {
       vehicles2.splice(vehicleindex, 1);
 
       commonObj = {
-        godigit: motor,
-        tata: vehicle,
+        tata: motor,
+        godigit: vehicle,
       };
 
       commonArray.push(commonObj);
