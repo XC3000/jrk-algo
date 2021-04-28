@@ -122,13 +122,6 @@ function checkVariant(first, second) {
 }
 
 function checkModel(first, second, third) {
-  // vehicle["Model"], // ZOOM
-  // motor["model_desc"], // SCOOTER
-  // motor["variant_desc"] // ZOOM'
-
-  if (first === "abarth" ) {
-    console.log(first, second, first.includes(second));
-  }
 
   if (first.includes(second)) return "same";
   else return "not same";
