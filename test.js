@@ -1,5 +1,6 @@
 var motors = require("./motor_makemodel.json"); // tata
 const vehicles = require("./VehicleMasterjan21.json"); // godigit
+const bajaj = require("./bagiccars.json"); // godigit
 var fs = require("fs");
 
 /* for (let i = 0; i < vehicle.length; i++) {
@@ -61,7 +62,6 @@ function checkVariant(first, second) {
 
   // motor
 
-
   first = first.toString();
   second = second.toString();
 
@@ -117,17 +117,17 @@ function checkModel(first, second, third) {
   // motor["model_desc"], // SCOOTER
   // motor["variant_desc"] // ZOOM
 
-  if (second.toString().toLowerCase().trim() === "scooter")
-    console.log(
-      "second",
-      first.toString().toLowerCase().trim(),
-      third.toString().toLowerCase().trim(),
-      first
-        .toString()
-        .toLowerCase()
-        .trim()
-        .includes(third.toString().toLowerCase().trim())
-    );
+  // if (second.toString().toLowerCase().trim() === "scooter")
+  //   console.log(
+  //     "second",
+  //     first.toString().toLowerCase().trim(),
+  //     third.toString().toLowerCase().trim(),
+  //     first
+  //       .toString()
+  //       .toLowerCase()
+  //       .trim()
+  //       .includes(third.toString().toLowerCase().trim())
+  //   );
   if (second.toString().toLowerCase().trim() === "scooter") {
     if (
       first
@@ -155,6 +155,7 @@ let rich = 0;
 
 let vehicles2 = Object.assign([], vehicles);
 var motors2 = Object.assign([], motors);
+var bajaj2 = Object.assign([], bajaj);
 
 let commonArray = [],
   commonObj = {};
@@ -233,15 +234,17 @@ console.log("final motors", motors2.length);
 
 console.log("common", results.length);
 
-
-
 console.log(commonArray[0]);
 
 console.log("commonobj", commonArray.length);
 
-fs.writeFile("commArr.json", JSON.stringify(commonArray, null, 2), function (err) {
-  if (err) throw err;
-  console.log("common array written");
-});
+fs.writeFile(
+  "commArr.json",
+  JSON.stringify(commonArray, null, 2),
+  function (err) {
+    if (err) throw err;
+    console.log("common array written");
+  }
+);
 
 console.log("uncommon vehicle", vehicles2.length);
