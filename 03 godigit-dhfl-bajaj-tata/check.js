@@ -10,7 +10,8 @@ var tata2 = Object.assign([], tata);
 function checkKeys(richard123) {
   var godigitKey = 0,
     dhflkey = 0,
-    bajajkey = 0;
+    bajajkey = 0,
+    tatakey = 0;
 
   richard123.forEach((element) => {
     if (element.hasOwnProperty("godigit")) godigitKey = godigitKey + 1;
@@ -24,7 +25,11 @@ function checkKeys(richard123) {
     if (element.hasOwnProperty("bajaj")) bajajkey = bajajkey + 1;
   });
 
-  console.log(godigitKey, dhflkey, bajajkey);
+  richard123.forEach((element) => {
+    if (element.hasOwnProperty("tata")) tatakey = tatakey + 1;
+  });
+
+  console.log(godigitKey, dhflkey, bajajkey, tatakey);
 }
 
 function checkVariant(first, second) {
