@@ -7,6 +7,26 @@ console.log("tata", tata.length);
 
 var tata2 = Object.assign([], tata);
 
+function checkKeys(richard123) {
+  var godigitKey = 0,
+    dhflkey = 0,
+    bajajkey = 0;
+
+  richard123.forEach((element) => {
+    if (element.hasOwnProperty("godigit")) godigitKey = godigitKey + 1;
+  });
+
+  richard123.forEach((element) => {
+    if (element.hasOwnProperty("dhfl")) dhflkey = dhflkey + 1;
+  });
+
+  richard123.forEach((element) => {
+    if (element.hasOwnProperty("bajaj")) bajajkey = bajajkey + 1;
+  });
+
+  console.log(godigitKey, dhflkey, bajajkey);
+}
+
 function checkVariant(first, second) {
   if (second === undefined) {
     return "not same";
@@ -104,6 +124,12 @@ console.log(
 );
 console.log("final.json", final.length);
 
+checkKeys(final);
+
+let temp = [],
+  commobj = {},
+  final2 = Object.assign([], final);
+
 final.forEach((fin, finindex) => {
   tata.forEach((tat, index) => {
     if (fin.hasOwnProperty("godigit")) {
@@ -118,12 +144,21 @@ final.forEach((fin, finindex) => {
         ) === "same" &&
         checkVariant(fin.godigit["Variant"], tat["TXT_VARIANT"]) === "same"
       ) {
-        tata2.splice(index, 1);
+        // tata2.splice(index, 1);
 
-        final[finindex] = {
+        // final[finindex] = {
+        //   ...final[finindex],
+        //   tata: tat,
+        // };
+
+        commobj = {
           ...final[finindex],
           tata: tat,
         };
+        temp.push(commobj);
+
+        tata2.splice(index, 1);
+        final2.splice(index, 1);
       }
     }
   });
@@ -133,14 +168,24 @@ final.forEach((fin, finindex) => {
 
 console.log("tata unique", tata2.length);
 console.log("final.json", final.length);
-tata = tata2;
+
+final = [...final2, ...temp];
+checkKeys(final);
 
 console.log("Checking for DHFL AND BAJAJ, DHFL");
+
+temp = [];
+commobj = {};
+final2 = final;
+
+tata = tata2;
 
 final.forEach((fin, finindex) => {
   tata.forEach((tat, index) => {
     if (
-      (fin.hasOwnProperty("dhfl") && fin.hasOwnProperty("bajaj")) ||
+      (fin.hasOwnProperty("dhfl") &&
+        fin.hasOwnProperty("bajaj") &&
+        !fin.hasOwnProperty("godigit")) ||
       (fin.hasOwnProperty("dhfl") &&
         !fin.hasOwnProperty("godigit") &&
         !fin.hasOwnProperty("bajaj"))
@@ -156,12 +201,21 @@ final.forEach((fin, finindex) => {
         ) === "same" &&
         checkVariant(fin.dhfl["variant_desc"], tat["TXT_VARIANT"]) === "same"
       ) {
-        tata2.splice(index, 1);
+        // tata2.splice(index, 1);
 
-        final[finindex] = {
+        // final[finindex] = {
+        //   ...final[finindex],
+        //   tata: tat,
+        // };
+
+        commobj = {
           ...final[finindex],
           tata: tat,
         };
+        temp.push(commobj);
+
+        tata2.splice(index, 1);
+        final2.splice(index, 1);
       }
     }
   });
@@ -171,8 +225,15 @@ final.forEach((fin, finindex) => {
 
 console.log("tata unique", tata2.length);
 console.log("final.json", final.length);
-tata = tata2;
+
 console.log("Checking for only BAJAJ");
+
+final = [...final2, ...temp];
+checkKeys(final);
+
+tata = tata2;
+
+final2 = final;
 
 final.forEach((fin, finindex) => {
   tata.forEach((tat, index) => {
@@ -195,18 +256,32 @@ final.forEach((fin, finindex) => {
         checkVariantBajaj(fin.bajaj["vehiclesubtype"], tat["TXT_VARIANT"]) ===
           "same"
       ) {
-        tata2.splice(index, 1);
+        // tata2.splice(index, 1);
 
-        final[finindex] = {
+        // final[finindex] = {
+        //   ...final[finindex],
+        //   tata: tat,
+        // };
+
+        commobj = {
           ...final[finindex],
           tata: tat,
         };
+        temp.push(commobj);
+
+        tata2.splice(index, 1);
+        final2.splice(index, 1);
       }
     }
   });
 
   tata = Object.assign([], tata2);
 });
+
+tata = tata2;
+final = [...final2, ...temp];
+
+checkKeys(final);
 
 console.log("tata unique", tata2.length);
 console.log("final.json", final.length);
@@ -225,6 +300,8 @@ tata2.forEach((m) => {
 });
 
 console.log(commonArray.length);
+
+checkKeys(commonArray);
 
 fs.writeFile(
   "godigit-dhfl-bajaj-tata.json",

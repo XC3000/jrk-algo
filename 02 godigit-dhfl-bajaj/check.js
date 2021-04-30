@@ -1,11 +1,37 @@
 var bajaj = require("../data/bajaj.json");
 var final = require("../01 godigit - dhfl/final.json");
+
 var fs = require("fs");
 
 console.log("final", final.length);
 console.log("bajaj", bajaj.length);
 
 var bajaj2 = Object.assign([], bajaj);
+
+function checkKeys(richard123) {
+  var godigitKey = 0,
+    dhflkey = 0,
+    bajajkey = 0;
+
+  richard123.forEach((element) => {
+    if (element.hasOwnProperty("godigit")) godigitKey = godigitKey + 1;
+  });
+
+  richard123.forEach((element) => {
+    if (element.hasOwnProperty("dhfl")) dhflkey = dhflkey + 1;
+  });
+
+  richard123.forEach((element) => {
+    if (element.hasOwnProperty("bajaj")) bajajkey = bajajkey + 1;
+  });
+
+  console.log(godigitKey, dhflkey, bajajkey);
+}
+
+let rich = 0,
+  mapped = 0;
+
+checkKeys(final);
 
 function checkVariant(first, second) {
   first = first.toString();
@@ -87,11 +113,14 @@ function removeSpecialCharacters(value) {
 }
 
 console.log("Checking for GODIGIT AND DHFL");
-console.log("final.json", final.length);
+
+let temp = [],
+  commobj = {},
+  final2 = Object.assign([], final);
 
 final.forEach((fin, finindex) => {
   bajaj.forEach((baj, index) => {
-    if (fin.hasOwnProperty("godigit") && fin.hasOwnProperty("dhfl")) {
+    if (fin.hasOwnProperty("godigit") /* && fin.hasOwnProperty("dhfl") */) {
       fin.godigit["Make"] = removeSpecialCharacters(fin.godigit["Make"]);
       baj["vehiclemake"] = removeSpecialCharacters(baj["vehiclemake"]);
       if (
@@ -103,12 +132,14 @@ final.forEach((fin, finindex) => {
         ) === "same" &&
         checkVariant(fin.godigit["Variant"], baj["vehiclesubtype"]) === "same"
       ) {
-        bajaj2.splice(index, 1);
-
-        final[finindex] = {
+        commobj = {
           ...final[finindex],
           bajaj: baj,
         };
+        temp.push(commobj);
+
+        bajaj2.splice(index, 1);
+        final2.splice(index, 1);
       }
     }
   });
@@ -117,42 +148,62 @@ final.forEach((fin, finindex) => {
 });
 
 console.log("bajaj unique", bajaj2.length);
-console.log("final.json", final.length);
+// console.log("final2.json", final2.length);
+// console.log("temp.json", temp.length);
 
-console.log("checking only for GODIGIT");
+final = [...final2, ...temp];
 
-bajaj = bajaj2;
+checkKeys(final);
 
-final.forEach((fin, finindex) => {
-  bajaj.forEach((baj, index) => {
-    if (fin.hasOwnProperty("godigit") && !fin.hasOwnProperty("dhfl")) {
-      fin.godigit["Make"] = removeSpecialCharacters(fin.godigit["Make"]);
-      baj["vehiclemake"] = removeSpecialCharacters(baj["vehiclemake"]);
-      if (
-        fin.godigit["Make"].toLowerCase().trim() ===
-          baj["vehiclemake"].toLowerCase().trim() &&
-        checkModel(
-          fin.godigit["Model"].toString().toLowerCase().trim(),
-          baj["vehiclemodel"].toString().toLowerCase().trim()
-        ) === "same" &&
-        checkVariant(fin.godigit["Variant"], baj["vehiclesubtype"]) === "same"
-      ) {
-        bajaj2.splice(index, 1);
+// console.log(final.length);
 
-        final[finindex] = {
-          ...final[finindex],
-          bajaj: baj,
-        };
-      }
-    }
-  });
+// final.forEach((element) => {
+//   if (element.hasOwnProperty("bajaj")) {
+//     mapped = mapped + 1;
+//   }
+// });
 
-  bajaj = Object.assign([], bajaj2);
-});
+// console.log(mapped);
 
+// console.log("checking only for GODIGIT");
+
+// console.log("final length", final.length);
+
+// bajaj = bajaj2;
+
+// final.forEach((fin, finindex) => {
+//   bajaj.forEach((baj, index) => {
+//     if (fin.hasOwnProperty("godigit") && !fin.hasOwnProperty("dhfl")) {
+//       fin.godigit["Make"] = removeSpecialCharacters(fin.godigit["Make"]);
+//       baj["vehiclemake"] = removeSpecialCharacters(baj["vehiclemake"]);
+//       if (
+//         fin.godigit["Make"].toLowerCase().trim() ===
+//           baj["vehiclemake"].toLowerCase().trim() &&
+//         checkModel(
+//           fin.godigit["Model"].toString().toLowerCase().trim(),
+//           baj["vehiclemodel"].toString().toLowerCase().trim()
+//         ) === "same" &&
+//         checkVariant(fin.godigit["Variant"], baj["vehiclesubtype"]) === "same"
+//       ) {
+//         bajaj2.splice(index, 1);
+
+//         final[finindex] = {
+//           ...final[finindex],
+//           bajaj: baj,
+//         };
+//       }
+//     }
+//   });
+
+//   bajaj = Object.assign([], bajaj2);
+// });
+console.log("final length", final.length);
 console.log("bajaj unique", bajaj2.length);
-console.log("final.json", final.length);
 console.log("checking only for DHFL");
+
+temp = [];
+commobj = {};
+final2 = final;
 
 bajaj = bajaj2;
 
@@ -172,12 +223,14 @@ final.forEach((fin, finindex) => {
         ) === "same" &&
         checkVariant(fin.dhfl["variant_desc"], baj["vehiclesubtype"]) === "same"
       ) {
-        bajaj2.splice(index, 1);
-
-        final[finindex] = {
+        commobj = {
           ...final[finindex],
           bajaj: baj,
         };
+        temp.push(commobj);
+
+        bajaj2.splice(index, 1);
+        final2.splice(index, 1);
       }
     }
   });
@@ -185,6 +238,10 @@ final.forEach((fin, finindex) => {
   bajaj = Object.assign([], bajaj2);
 });
 
+bajaj = bajaj2;
+final = [...final2, ...temp];
+
+checkKeys(final);
 console.log("bajaj unique", bajaj2.length);
 console.log("final.json", final.length);
 
@@ -201,6 +258,9 @@ bajaj2.forEach((m) => {
   commonArray.push(commonObj);
 });
 
+
+checkKeys(commonArray);
+
 fs.writeFile(
   "godigit-dhfl-bajaj.json",
   JSON.stringify(commonArray, null, 2),
@@ -208,4 +268,5 @@ fs.writeFile(
     if (err) throw err;
     console.log("final json written");
   }
-);
+  );
+
