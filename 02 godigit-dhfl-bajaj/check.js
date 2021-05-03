@@ -124,8 +124,7 @@ final.forEach((fin, finindex) => {
       fin.godigit["Make"] = removeSpecialCharacters(fin.godigit["Make"]);
       baj["vehiclemake"] = removeSpecialCharacters(baj["vehiclemake"]);
       if (
-        fin.godigit["Make"].toLowerCase().trim() ===
-          baj["vehiclemake"].toLowerCase().trim() &&
+        fin.godigit["Make"].toLowerCase().trim() === baj["vehiclemake"].toLowerCase().trim() &&
         checkModel(
           fin.godigit["Model"].toString().toLowerCase().trim(),
           baj["vehiclemodel"].toString().toLowerCase().trim()
@@ -215,8 +214,7 @@ final.forEach((fin, finindex) => {
 
       baj["vehiclemake"] = removeSpecialCharacters(baj["vehiclemake"]);
       if (
-        fin.dhfl["make_desc"].toLowerCase().trim() ===
-          baj["vehiclemake"].toLowerCase().trim() &&
+        fin.dhfl["make_desc"].toLowerCase().trim() === baj["vehiclemake"].toLowerCase().trim() &&
         checkModel(
           fin.dhfl["model_desc"].toString().toLowerCase().trim(),
           baj["vehiclemodel"].toString().toLowerCase().trim()
@@ -258,15 +256,9 @@ bajaj2.forEach((m) => {
   commonArray.push(commonObj);
 });
 
-
 checkKeys(commonArray);
 
-fs.writeFile(
-  "godigit-dhfl-bajaj.json",
-  JSON.stringify(commonArray, null, 2),
-  function (err) {
-    if (err) throw err;
-    console.log("final json written");
-  }
-  );
-
+fs.writeFile("./02 godigit-dhfl-bajaj/godigit-dhfl-bajaj.json", JSON.stringify(commonArray, null, 2), function (err) {
+  if (err) throw err;
+  console.log("final json written");
+});

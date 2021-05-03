@@ -124,9 +124,7 @@ function removeSpecialCharacters(value) {
   return value.toString().replace("-", " ");
 }
 
-console.log(
-  "Checking for GODIGIT DHFL BAJAJ, GODIGIT AND DHFL, GODIGIT AND BAJAJ, GODIGIT"
-);
+console.log("Checking for GODIGIT DHFL BAJAJ, GODIGIT AND DHFL, GODIGIT AND BAJAJ, GODIGIT");
 console.log("final.json", final.length);
 
 checkKeys(final);
@@ -141,8 +139,7 @@ final.forEach((fin, finindex) => {
       fin.godigit["Make"] = removeSpecialCharacters(fin.godigit["Make"]);
       tat["MANUFACTURER"] = removeSpecialCharacters(tat["MANUFACTURER"]);
       if (
-        fin.godigit["Make"].toLowerCase().trim() ===
-          tat["MANUFACTURER"].toLowerCase().trim() &&
+        fin.godigit["Make"].toLowerCase().trim() === tat["MANUFACTURER"].toLowerCase().trim() &&
         checkModel(
           fin.godigit["Model"].toString().toLowerCase().trim(),
           tat["VEHICLEMODEL"].toString().toLowerCase().trim()
@@ -188,18 +185,13 @@ tata = tata2;
 final.forEach((fin, finindex) => {
   tata.forEach((tat, index) => {
     if (
-      (fin.hasOwnProperty("dhfl") &&
-        fin.hasOwnProperty("bajaj") &&
-        !fin.hasOwnProperty("godigit")) ||
-      (fin.hasOwnProperty("dhfl") &&
-        !fin.hasOwnProperty("godigit") &&
-        !fin.hasOwnProperty("bajaj"))
+      (fin.hasOwnProperty("dhfl") && fin.hasOwnProperty("bajaj") && !fin.hasOwnProperty("godigit")) ||
+      (fin.hasOwnProperty("dhfl") && !fin.hasOwnProperty("godigit") && !fin.hasOwnProperty("bajaj"))
     ) {
       fin.dhfl["make_desc"] = removeSpecialCharacters(fin.dhfl["make_desc"]);
       tat["MANUFACTURER"] = removeSpecialCharacters(tat["MANUFACTURER"]);
       if (
-        fin.dhfl["make_desc"].toLowerCase().trim() ===
-          tat["MANUFACTURER"].toLowerCase().trim() &&
+        fin.dhfl["make_desc"].toLowerCase().trim() === tat["MANUFACTURER"].toLowerCase().trim() &&
         checkModel(
           fin.dhfl["model_desc"].toString().toLowerCase().trim(),
           tat["VEHICLEMODEL"].toString().toLowerCase().trim()
@@ -242,24 +234,16 @@ final2 = final;
 
 final.forEach((fin, finindex) => {
   tata.forEach((tat, index) => {
-    if (
-      fin.hasOwnProperty("bajaj") &&
-      !fin.hasOwnProperty("godigit") &&
-      !fin.hasOwnProperty("dhfl")
-    ) {
-      fin.bajaj["vehiclemake"] = removeSpecialCharacters(
-        fin.bajaj["vehiclemake"]
-      );
+    if (fin.hasOwnProperty("bajaj") && !fin.hasOwnProperty("godigit") && !fin.hasOwnProperty("dhfl")) {
+      fin.bajaj["vehiclemake"] = removeSpecialCharacters(fin.bajaj["vehiclemake"]);
       tat["MANUFACTURER"] = removeSpecialCharacters(tat["MANUFACTURER"]);
       if (
-        fin.bajaj["vehiclemake"].toLowerCase().trim() ===
-          tat["MANUFACTURER"].toLowerCase().trim() &&
+        fin.bajaj["vehiclemake"].toLowerCase().trim() === tat["MANUFACTURER"].toLowerCase().trim() &&
         checkModel(
           fin.bajaj["vehiclemodel"].toString().toLowerCase().trim(),
           tat["VEHICLEMODEL"].toString().toLowerCase().trim()
         ) === "same" &&
-        checkVariantBajaj(fin.bajaj["vehiclesubtype"], tat["TXT_VARIANT"]) ===
-          "same"
+        checkVariantBajaj(fin.bajaj["vehiclesubtype"], tat["TXT_VARIANT"]) === "same"
       ) {
         // tata2.splice(index, 1);
 
@@ -309,7 +293,7 @@ console.log(commonArray.length);
 checkKeys(commonArray);
 
 fs.writeFile(
-  "godigit-dhfl-bajaj-tata.json",
+  "./03 godigit-dhfl-bajaj-tata/godigit-dhfl-bajaj-tata.json",
   JSON.stringify(commonArray, null, 2),
   function (err) {
     if (err) throw err;

@@ -1,6 +1,6 @@
 var common = require("./common.json");
-var dhflUnique = require("./dhfl unique.json")
-var godigitUnique = require("./godigit unique.json")
+var dhflUnique = require("./dhfl unique.json");
+var godigitUnique = require("./godigit unique.json");
 
 var fs = require("fs");
 
@@ -33,11 +33,7 @@ dhflUnique.forEach((m) => {
 
 console.log("commonArray", commonArray.length);
 
-fs.writeFile(
-  "final.json",
-  JSON.stringify(commonArray, null, 2),
-  function (err) {
-    if (err) throw err;
-    console.log("common array written into final");
-  }
-);
+fs.writeFile("./01 godigit - dhfl/final.json", JSON.stringify(commonArray, null, 2), function (err) {
+  if (err) throw err;
+  console.log("common array written into final");
+});
